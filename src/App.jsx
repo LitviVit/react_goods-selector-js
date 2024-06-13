@@ -16,43 +16,43 @@ export const goods = [
 ];
 
 export const App = () => {
-  const [value, setValue] = useState('Jam');
+  const [selectedGood, setSelectedGood] = useState('Jam');
 
   return (
     <main className="section container">
-      {value ? (
-        <h1 className="title is-flex is-align-items-center">
-          {value} is selected
-          <button
-            data-cy="ClearButton"
-            type="button"
-            className="delete ml-3"
-            onClick={() => setValue(null)}
-          />
-        </h1>
-      ) : (
-        <h1 className="title is-flex is-align-items-center">
-          No goods selected
-        </h1>
-      )}
-
+      <h1 className="title is-flex is-align-items-center">
+        {selectedGood ? (
+          <>
+            {`${selectedGood} is selected`}
+            <button
+              data-cy="ClearButton"
+              type="button"
+              className="delete ml-3"
+              onClick={() => setSelectedGood(null)}
+            />
+          </>
+        ) : (
+          'No goods selected'
+        )}
+      </h1>
       <table className="table">
         <tbody>
-          {goods.map(good => {
-            const isValueEqual = good === value;
+          {goods.map((good, index) => {
+            const isValueEqual = good === selectedGood;
+            const uniqueKey = `${index}-${good}`;
 
             return (
               <tr
                 data-cy="Good"
                 className={isValueEqual ? 'has-background-success-light' : ''}
-                key={goods.indexOf(good) + 1}
+                key={uniqueKey}
               >
                 <td>
                   <button
                     data-cy={isValueEqual ? 'RemoveButton' : 'AddButton'}
                     type="button"
                     className={`button ${isValueEqual && 'is-info'}`}
-                    onClick={() => setValue(!isValueEqual ? good : null)}
+                    onClick={() => setSelectedGood(!isValueEqual ? good : null)}
                   >
                     {isValueEqual ? '-' : '+'}
                   </button>
